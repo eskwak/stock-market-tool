@@ -35,11 +35,11 @@ def yf_get_stock_info(ticker_symbol_list: list, interval = 3) -> dict:
         year_high = ticker.fast_info["year_high"]
         percent_off_high = ((last_price - year_high) / year_high) * 100.0
         
-        # .info is used to avoid crashes for tickers where certain information may not be available.
-        ticker_info = ticker.info
-        trailing_pe = ticker_info.get("trailingPE")
-        forward_pe = ticker_info.get("forwardPE")
-        dividend_yield = ticker_info.get("dividendYield", 0)
+        # 'forwardPE' often returns 'None' with etfs.
+        # .info() is used to avoid crashes for tickers with no forward P/E.
+        trailing_pe = ticker.info.get("trailingPE")
+        forward_pe = ticker.info.get("forwardPE")
+        dividend_yield = ticker.info.get("dividendYield", 0)
         
         stock_info_dict[ticker_string] = [
             currency_type,
