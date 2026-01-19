@@ -1,7 +1,59 @@
 import ticker_analysis
 import time
+import tkinter as tk
+
+# List of tickers selected.
+tracked_tickers = []
+
+def add_new_ticker(ticker_entry, tracked_tickers_label):
+    """Adds new ticker to tracked tickers list if it's not already being tracked.
+
+    Args:
+        ticker_entry (tk.Entry): New ticker to track.
+        tracked_tickers_label (tk.Label): Label to display tracked tickers.
+    """
+    ticker_symbol = ticker_entry.get().strip().lower()
+    if ticker_symbol and ticker_symbol not in tracked_tickers:
+        tracked_tickers.append(ticker_symbol)
+        tracked_tickers_label.config(text = f"Tracking: {', '.join(tracked_tickers)}")
+        ticker_entry.delete(0, tk.END)
+    elif ticker_symbol in tracked_tickers:
+        print(f"${ticker_symbol} is alreaady being tracked.")
 
 def main():
+    """Main.
+       Runs the dashboard.
+    """
+    root = tk.Tk()
+    root.title("Market Analysis Tool Dashboard")
+    root.geometry("1600x800")
+    root.configure(bg="#D4F3FC")
+    
+    # Entry to add new tickers to track.
+    add_ticker_instruction_label = tk.Label(root, text = "Enter ticker symbol (e.g. aapl):")
+    add_ticker_instruction_label.pack(side = "top", anchor = "nw", padx = 20, pady = (20, 0))
+    new_ticker_entry = tk.Entry(root)
+    new_ticker_entry.pack(side = "top", anchor = "nw", padx = 35, pady = (5, 0))
+    
+    # Label to display tracked tickers.
+    tracked_tickers_label = tk.Label(root, text = "Tracking: None", wraplength = 350)
+    tracked_tickers_label.pack(side = "top", anchor = "nw", padx = 50, pady = (5, 0))
+    
+    # Button to add new tickers to ticker list
+    add_ticker_button = tk.Button(
+        root,
+        text = "Add to list",
+        command = lambda: add_new_ticker(new_ticker_entry, tracked_tickers_label)
+    )
+    add_ticker_button.pack(side = "top", anchor = "nw", padx = 60, pady = (5, 0))
+    
+    root.mainloop()
+
+    
+def pre_gui():
+    ###############
+    ### PRE-GUI ###
+    ###############
     ticker_symbol_list = [
         "aapl",
         "nvda",
@@ -50,6 +102,9 @@ def main():
 
         print("\n\n")
         time.sleep(3)
-
+    ######################
+    ### END OF PRE-GUI ###
+    ######################
+    
 if __name__ == "__main__":
     main()
