@@ -47,6 +47,25 @@ def main():
     )
     add_ticker_button.pack(side = "top", anchor = "nw", padx = 60, pady = (5, 0))
     
+    # If there are tickers being tracked, extract data and output to dashboard.
+    if len(tracked_tickers) > 0:
+        stock_info_dict = ticker_analysis.yf_get_stock_info(tracked_tickers)
+        
+        while True:
+            try:
+                for ticker in stock_info_dict.keys():
+                    currency_type = stock_info_dict[ticker][0]
+                    last_price = stock_info_dict[ticker][1]
+                    year_high = stock_info_dict[ticker][2]
+                    percent_off_high = stock_info_dict[ticker][3]
+                    trailing_pe = stock_info_dict[ticker][4]
+                    forward_pe = stock_info_dict[ticker][5]
+                    dividend_yield = stock_info_dict[ticker][6]
+            except KeyboardInterrupt:
+                ### THIS SHOULD NEVER BE CAUGHT ### 
+                print("Stopped monitoring.")
+                break
+    
     root.mainloop()
 
     
