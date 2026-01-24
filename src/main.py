@@ -21,31 +21,43 @@ def add_new_ticker(ticker_entry, tracked_tickers_label):
         print(f"${ticker_symbol} is alreaady being tracked.")
 
 def main():
-    """Main.
-       Runs the dashboard.
+    """Main. Sets up and runs the dashboard.
     """
-    root = tk.Tk()
-    root.title("Market Analysis Tool Dashboard")
-    root.geometry("1600x800")
-    root.configure(bg="#D4F3FC")
+    master = tk.Tk()
+    master.title("Market Analysis Tool Dashboard")
+    master.geometry("1600x800")
+    master.configure(bg="#D4F3FC")
     
     # Entry to add new tickers to track.
-    add_ticker_instruction_label = tk.Label(root, text = "Enter ticker symbol (e.g. aapl):")
+    add_ticker_instruction_label = tk.Label(master, text = "Enter ticker symbol (e.g. aapl):")
     add_ticker_instruction_label.pack(side = "top", anchor = "nw", padx = 20, pady = (20, 0))
-    new_ticker_entry = tk.Entry(root)
+    new_ticker_entry = tk.Entry(master)
     new_ticker_entry.pack(side = "top", anchor = "nw", padx = 35, pady = (5, 0))
     
     # Label to display tracked tickers.
-    tracked_tickers_label = tk.Label(root, text = "Tracking: None", wraplength = 350)
+    tracked_tickers_label = tk.Label(master, text = "Tracking: None", wraplength = 350)
     tracked_tickers_label.pack(side = "top", anchor = "nw", padx = 50, pady = (5, 0))
     
-    # Button to add new tickers to ticker list
+    # Button to add new tickers to ticker list.
     add_ticker_button = tk.Button(
-        root,
+        master,
         text = "Add to list",
         command = lambda: add_new_ticker(new_ticker_entry, tracked_tickers_label)
     )
     add_ticker_button.pack(side = "top", anchor = "nw", padx = 60, pady = (5, 0))
+    
+    # Data frame for tracked tickers.
+    ticker_data_frame = tk.Frame(master)
+    ticker_data_frame.pack(side = "top", anchor = "nw", padx = 20, pady = 20)
+    
+    # Data frame headers.
+    tk.Label(ticker_data_frame, text = "Last Price").grid(row = 0, column = 0, padx = 10)
+    tk.Label(ticker_data_frame, text = "Year High").grid(row = 0, column = 1, padx = 10)
+    tk.Label(ticker_data_frame, text = "Percent Off Year High").grid(row = 0, column = 2, padx = 10)
+    tk.Label(ticker_data_frame, text = "Trailing P/E").grid(row = 0, column = 3, padx = 10)
+    tk.Label(ticker_data_frame, text = "Forward P/E").grid(row = 0, column = 4, padx = 10)
+    tk.Label(ticker_data_frame, text = "Dividend Yield").grid(row = 0, column = 5, padx = 10)
+    
     
     # If there are tickers being tracked, extract data and output to dashboard.
     if len(tracked_tickers) > 0:
@@ -62,17 +74,16 @@ def main():
                     forward_pe = stock_info_dict[ticker][5]
                     dividend_yield = stock_info_dict[ticker][6]
             except KeyboardInterrupt:
-                ### THIS SHOULD NEVER BE CAUGHT ### 
+                ### Interrupt will never be caught here. ###
                 print("Stopped monitoring.")
                 break
     
-    root.mainloop()
+    master.mainloop()
 
     
 def pre_gui():
-    ###############
-    ### PRE-GUI ###
-    ###############
+    """Decpreciated code prior to implementing a GUI.
+    """
     ticker_symbol_list = [
         "aapl",
         "nvda",
