@@ -54,6 +54,29 @@ def yf_get_stock_info(ticker_symbol_list: list, interval = 3) -> dict:
         time.sleep(interval)
     
     return stock_info_dict
+
+def yf_get_portfolio_info_detailed(ticker_symbol_list: list, interval = 3):
+    """ Returns a detailed dictionary with data for each ticker in the ticker symbol list.
+        
+        Args:
+            ticker_symbol_list (_list_): A list of string ticker symbols.
+            interval (_int_): Interval for yfinance -- prevents DOS restrictions. Defaulted to 3.
+        
+        Return:
+            dict: Returns dictionary with:
+                {
+                    ticker: [
+                        ...    
+                    ]
+                }
+    """
+
+    try:
+        for ticker_symbol in ticker_symbol_list:
+            pass
+    except IndexError:
+        print("ERROR: Index out of range. ticker_symbol_list is likely empty.")
+        return None
     
     
 # def get_stock_prices_from_tickers(ticker_symbol_list: list) -> dict:
