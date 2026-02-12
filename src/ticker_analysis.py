@@ -27,6 +27,9 @@ def yf_get_stock_info(ticker_symbol_list: list, interval = 3) -> dict:
         }
     """
     stock_info_dict = defaultdict(list)
+    if len(ticker_symbol_list) == 0:
+        print("No tickers are being tracked.")
+        return stock_info_dict
     
     for ticker_string in ticker_symbol_list:
         ticker = yf.Ticker(ticker_string)
